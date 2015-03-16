@@ -1,0 +1,109 @@
+.circle {
+	border-radius: 50%;
+	display: inline-block;
+}
+
+.filter {
+	width: 100%;
+	height: 100%;
+	position: absolute;
+	top: 0;
+	left: 0;
+	background: #000;
+	opacity: 0.3;
+	-webkit-transform: skew(-10deg);
+	margin-left: 64px;
+}
+
+.screen {
+	position: relative;
+	overflow: hidden;
+}
+
+.screen img {
+	width: 100%;
+	height: 100%;
+}
+
+.softkeys {
+	background: #101010;
+	width: 100%;
+	height: 24px;
+	position: absolute;
+	bottom: 0;
+	left: 0;
+}
+
+.softkeys .circle,
+.softkeys .square {
+	width: 12px;
+	height: 12px;
+	color: #fff;
+	margin: 6px 0;
+	font-size: 10pt;
+}
+
+.softkeys .triangle {
+	-webkit-transform: rotate(-90deg);
+	margin: 6px;
+	color: #fff;
+	font-size: 9pt;
+}
+
+.softkeys .triangle + .triangle-o {
+	width: 8px;
+	height: 8px;
+	border-style: solid;
+	border-width: 5px 9px 5px 0;
+	border-color: transparent #101010 transparent transparent;
+	position: absolute;
+	top: 7px;
+	left: 23.2px;
+}
+
+.xperia-z2 {
+/*	width: 73.3px;
+	height: 146.8px;*/
+	width: 219.9px;
+	height: 440.4px;
+	background: #000;
+	border-radius: 16px;
+	padding: 0;
+	position: relative;
+	overflow: hidden;
+}
+
+.xperia-z2 .logo {
+	width: 52px;
+	margin-left: 20px;
+}
+
+.xperia-z2 .top {
+	width: 100%;
+	margin: 12px auto;
+	text-align: center;
+	display: inline-block;
+}
+
+.xperia-z2 .screen {
+	width: 199.9px;
+	height: 355.4px;
+	background: #fff;
+	margin: 0 auto;
+}
+
+.xperia-z2 .front-camera {
+	width: 10px;
+	height: 10px;
+	background: #222;
+	margin-left: 10px;
+}
+
+.xperia-z2 .front-camera .circle {
+	width: 6px;
+	height: 6px;
+	background: #444;
+	display: block;
+	margin: 2px auto;
+	border: 2px solid #333;
+}
