@@ -2,56 +2,129 @@
 <html ng-app="smartphone">
 	<head>
 		<title>smartphone mockup</title>
+		<meta charset="utf-8">
 		<link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
-		<link rel="stylesheet" type="text/css" href="assets/stylesheets/smartphones.css">
 		<link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+		<link rel='stylesheet' type='text/css' href='http://fonts.googleapis.com/css?family=Open+Sans:300'>
+		<link rel="stylesheet" type="text/css" href="assets/stylesheets/smartphones.css">
+		<link rel="stylesheet" type="text/css" href="assets/stylesheets/style.css">
 
 		<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/angularjs/1.2.26/angular.min.js"></script>
 		<script type="text/javascript" src="assets/javascripts/app.js"></script>
+		<script type="text/javascript" src="assets/javascripts/panel.js"></script>
+		<script type="text/javascript" src="assets/javascripts/review.js"></script>
+		<script type="text/javascript" src="assets/javascripts/time.js"></script>
 	</head>
 
 	<body>
 		<div class="container" ng-controller="smartphoneController as smartphone">
-			<ul class="list-group">
+			<ul class="list-group smartphones">
 				<li class="list-group-item" ng-repeat="mockup in smartphone.mockups">
 					<div class="row">
 						<div class="col-sm-12">
-							<div class="xperia-z2-wrapper">
-								<div class="xperia-z2 pull-left">
-									<div class="top">
-										<img src="assets/images/sony.png" class="logo">
-										<div class="front-camera circle">
-											<div class="circle"></div>
+							<div class="col-sm-3">
+								<!-- MOCKUP CSS OF XPERIA Z2 -->
+								<div class="xperia-z2-wrapper">
+									<div class="xperia-z2 pull-left">
+										<div class="top">
+											<img src="http://www.sonymusic.com/wp-content/themes/sonymusic/images/sony_logo.jpg" class="logo">
+											<div class="front-camera circle">
+												<div class="circle"></div>
+											</div>
 										</div>
-									</div>
-									<div class="screen">
-										<img ng-src="{{mockup.wallpaper}}">
-										<div class="softkeys col-xs-12">
-											<div class="col-xs-4 text-center">
-												<div class="back">
-													<i class="triangle fa fa-exclamation-triangle"></i>
-													<div class="triangle-o"></div>
+										<div class="screen">
+											<div class="notification col-xs-12" ng-controller="TimeController as time">
+												<div class="pull-right hour" my-current-time="format"></div>
+												<div class="pull-right battery"><div class="top-side"></div><div class="left-side"></div><div class="bottom-side"></div>100</div>
+											</div>
+											<img ng-src="{{mockup.wallpaper}}" title="wallpaper">
+											<div class="softkeys col-xs-12">
+												<div class="col-xs-4 text-center">
+													<div class="back">
+														<i class="triangle fa fa-exclamation-triangle"></i>
+														<div class="triangle-o"></div>
+													</div>
+												</div>
+												<div class="col-xs-4 text-center">
+													<i class="circle fa fa-circle-thin"></i>
+												</div>
+												<div class="col-xs-4 text-center">
+													<i class="square fa fa-square-o"></i>
 												</div>
 											</div>
-											<div class="col-xs-4 text-center">
-												<i class="circle fa fa-circle-thin"></i>
-											</div>
-											<div class="col-xs-4 text-center">
-												<i class="square fa fa-square-o"></i>
-											</div>
 										</div>
+										<div class="filter"></div>
 									</div>
-									<div class="filter"></div>
-								</div>
-								<div class="right-side pull-left">
-									<div class="power">
-										<div class="button"></div>
+									<div class="right-side pull-left">
+										<div class="power">
+											<div class="button"></div>
+										</div>
+										<div class="volume"></div>
+										<div class="trigger-camera"></div>
 									</div>
-									<div class="volume"></div>
-									<div class="trigger-camera"></div>
 								</div>
 							</div>
-
+							<!-- RIGHT COLUMN OF DESCRIPTION -->
+							<div class="col-sm-9">
+								<section class="col-sm-12" ng-controller="PanelController as panels">
+									<h2>{{ mockup.title }}</h2>
+									<br>
+									<ul class="nav nav-pills">
+										<li class="{ active: panels.isSet(1) }">
+											<a href ng-click="panels.setTab(1)">Description</a>
+										</li>
+										<li class="{ active: panels.isSet(2) }">
+											<a href ng-click="panels.setTab(2)">Galleries</a>
+										</li>
+										<li class="{ active: panels.isSet(3) }">
+											<a href ng-click="panels.setTab(3)">Commentaires</a>
+										</li>
+									</ul>
+									<br>
+									<!-- PANELS -->
+									<div class="panel" ng-show="panels.isSet(1)" title="description">
+										<p>{{ mockup.description }}</p>
+									</div>
+									<div class="panel" ng-show="panels.isSet(2)" title="gallery">
+										<p></p>
+									</div>
+									<div class="panel" ng-show="panels.isSet(3)" title="reviews">
+ 										<section class="col-sm-12">
+											<blocquote class="review" ng-repeat="review in mockup.reviews">
+												<span class="author-name pull-left"><a href>{{ review.authorName }}</a></span>
+												<span class="pull-left" ng-repeat="n in [] | range: review.stars"><i class="fa fa-star"></i></span>
+												<span class="pull-left" ng-repeat="n in [] | range: (5 - review.stars)"><i class="fa fa-star-o"></i></span><br>
+												<p>{{ review.body }}</p>
+											</blocquote>
+											<hr>
+											<!-- POST REVIEW -->
+											<form name="reviewForm" ng-controller="ReviewController as reviewCtrl"
+											ng-submit="reviewForm.$valid && reviewCtrl.addReview(mockup)" novalidate>
+												<blockquote class="review">
+													<span class="author-name pull-left"><a href>{{ reviewCtrl.review.authorName }}</a></span>
+													<span class="pull-left" ng-repeat="n in [] | range: reviewCtrl.review.stars">
+														<i class="fa fa-star"></i>
+													</span>
+													<span class="pull-left" ng-repeat="n in [] | range: (5 - reviewCtrl.review.stars)">
+														<i class="fa fa-star-o"></i>
+													</span>
+													<br><p>{{ reviewCtrl.review.body }}</p>
+												</blockquote>
+												<hr>
+												<select style="font-family: 'FontAwesome';" ng-model="reviewCtrl.review.stars" required>
+													<option ng-repeat="i in [] | range: 5" value="{{i + 1}}">{{(i + 1)}} étoile{{(i + 1) > 1 ? 's' : ''}}</option>
+												</select>
+												<br>
+												<input type="text" ng-model="reviewCtrl.review.authorName" placeholder="Pseudo" required />
+												<br>
+												<textarea ng-model="reviewCtrl.review.body" required></textarea>
+												<br>
+												<input type="submit" value="Submit" />
+											</form>
+										</section>
+ 									</div>
+								</section>
+							</div>
 						</div>
 					</div>
 				</li>
